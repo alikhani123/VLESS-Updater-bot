@@ -6,13 +6,13 @@ BOT_PY="$BOT_DIR/bot.py"
 CONFIG_FILE="$BOT_DIR/config.json"
 
 install_bot() {
-  echo "=== شروع نصب و راه‌اندازی ربات بروزرسانی کانفیگ ==="
-  read -p "توکن ربات تلگرام را وارد کن: " BOT_TOKEN
-  read -p "آیدی عددی تلگرام ادمین را وارد کن: " ADMIN_ID
+  echo "=== Starting Config Updater Bot Installation ==="
+  read -p "Enter your Telegram bot token: " BOT_TOKEN
+  read -p "Enter the numeric Telegram admin ID: " ADMIN_ID
 
   mkdir -p "$BOT_DIR"
 
-  echo "در حال ایجاد فایل bot.py ..."
+  echo "Creating bot.py file ..."
   cat > "$BOT_PY" <<EOF
 import json
 from telegram import Update
@@ -133,13 +133,13 @@ app.add_handler(MessageHandler(filters.TEXT, handle_message))
 app.run_polling()
 EOF
 
-  echo "در حال ذخیره تنظیمات اولیه..."
-  echo "{"domain": "mydomain.ir", "host": "myhost.ir", "subdomain": "mysubdomain.ir", "bot_token": "$BOT_TOKEN", "admin_id": $ADMIN_ID}" > "$CONFIG_FILE"
+  echo "Saving initial configuration..."
+  echo "{\"domain\": \"mydomain.ir\", \"host\": \"myhost.ir\", \"subdomain\": \"mysubdomain.ir\", \"bot_token\": \"$BOT_TOKEN\", \"admin_id\": $ADMIN_ID}" > "$CONFIG_FILE"
 
-  echo "در حال نصب پیش‌نیازهای Python ..."
+  echo "Installing Python prerequisites..."
   pip3 install python-telegram-bot --quiet
 
-  echo "در حال ایجاد فایل سرویس systemd ..."
+  echo "Creating systemd service file..."
   sudo bash -c "cat > $SERVICE_FILE" <<EOL
 [Unit]
 Description=Config Updater Bot
@@ -155,28 +155,28 @@ Restart=always
 WantedBy=multi-user.target
 EOL
 
-  echo "فعال‌سازی سرویس systemd ..."
+  echo "Enabling and starting systemd service..."
   sudo systemctl daemon-reload
   sudo systemctl enable updatebot.service
   sudo systemctl start updatebot.service
 
-  echo "ربات با موفقیت نصب و اجرا شد."
-  echo "برای مشاهده وضعیت سرویس دستور زیر را اجرا کنید:"
+  echo "Bot installed and running successfully."
+  echo "To check the service status, run:"
   echo "sudo systemctl status updatebot.service"
 }
 
 remove_bot() {
-  echo "در حال حذف کامل ربات..."
+  echo "Removing bot completely..."
   sudo systemctl stop updatebot.service
   sudo systemctl disable updatebot.service
   sudo rm -f $SERVICE_FILE
   sudo systemctl daemon-reload
   rm -rf "$BOT_DIR"
-  echo "ربات با موفقیت حذف شد."
+  echo "Bot removed successfully."
 }
 
 update_bot() {
-  echo "در حال بروزرسانی ربات..."
+  echo "Updating bot..."
   sudo systemctl stop updatebot.service
 
   if [ -f "$CONFIG_FILE" ]; then
@@ -186,15 +186,15 @@ update_bot() {
     HOST=$(jq -r '.host' "$CONFIG_FILE")
     SUBDOMAIN=$(jq -r '.subdomain' "$CONFIG_FILE")
   else
-    echo "خطا: فایل پیکربندی پیدا نشد!"
+    echo "Error: Config file not found!"
     sudo systemctl start updatebot.service
     return
   fi
 
-  echo "حذف کامل فایل‌های قبلی..."
+  echo "Removing old files..."
   rm -rf "$BOT_DIR"
 
-  echo "نصب مجدد ربات با حفظ تنظیمات..."
+  echo "Reinstalling bot while keeping settings..."
   mkdir -p "$BOT_DIR"
 
   cat > "$BOT_PY" <<EOF
@@ -317,29 +317,34 @@ app.add_handler(MessageHandler(filters.TEXT, handle_message))
 app.run_polling()
 EOF
 
-  echo "{"domain": "$DOMAIN", "host": "$HOST", "subdomain": "$SUBDOMAIN", "bot_token": "$BOT_TOKEN", "admin_id": $ADMIN_ID}" > "$CONFIG_FILE"
+  echo "Restoring config file..."
+  echo "{\"domain\": \"$DOMAIN\", \"host\": \"$HOST\", \"subdomain\": \"$SUBDOMAIN\", \"bot_token\": \"$BOT_TOKEN\", \"admin_id\": $ADMIN_ID}" > "$CONFIG_FILE"
 
+  echo "Installing python-telegram-bot..."
+  pip3 install python-telegram-bot --quiet
+
+  echo "Reloading and starting service..."
   sudo systemctl daemon-reload
   sudo systemctl enable updatebot.service
   sudo systemctl start updatebot.service
 
-  echo "ربات با موفقیت بروزرسانی شد."
+  echo "Bot updated successfully."
 }
 
 show_menu() {
-  echo "========== ربات بروزرسانی کانفیگ =========="
-  echo "1) نصب ربات"
-  echo "2) حذف ربات"
-  echo "3) بروزرسانی ربات"
-  echo "4) خروج"
-  echo "=========================================="
-  read -p "یک گزینه انتخاب کنید: " choice
-  case $choice in
+  echo "=== Config Updater Bot Installer Menu ==="
+  echo "1) Install Bot"
+  echo "2) Remove Bot"
+  echo "3) Update Bot"
+  echo "4) Exit"
+  echo -n "Choose an option: "
+  read opt
+  case $opt in
     1) install_bot ;;
     2) remove_bot ;;
     3) update_bot ;;
     4) exit 0 ;;
-    *) echo "گزینه نامعتبر!" ;;
+    *) echo "Invalid option" ;;
   esac
 }
 
