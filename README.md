@@ -17,7 +17,7 @@
 - `/setsub [subdomain]` — تغییر دامنه سابسکریپشن (فقط ادمین).
 
 ## نصب و راه‌اندازی
-bash <(curl -s https://raw.githubusercontent.com/alikhani123/VLESS-Updater-bot/main/config-updater-bot.sh)
+```bash <(curl -s https://raw.githubusercontent.com/alikhani123/VLESS-Updater-bot/main/config-updater-bot.sh)```
 
 
 1. اسکریپت `config-updater-bot.sh` را اجرا کنید.
