@@ -17,9 +17,8 @@
 - `/setsub [subdomain]` — تغییر دامنه سابسکریپشن (فقط ادمین).
 
 ## نصب و راه‌اندازی
-```bash <(curl -s https://raw.githubusercontent.com/alikhani123/VLESS-Updater-bot/main/config-updater-bot.sh)```
 
-
+<pre> ```bash bash <(curl -s https://raw.githubusercontent.com/alikhani123/VLESS-Updater-bot/main/config-updater-bot.sh) ``` </pre>
 1. اسکریپت `config-updater-bot.sh` را اجرا کنید.
 2. توکن ربات تلگرام و آیدی عددی ادمین را وارد کنید.
 3. اسکریپت ربات را نصب و سرویس systemd را فعال می‌کند.
