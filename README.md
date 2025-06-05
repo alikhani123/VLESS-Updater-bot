@@ -1,4 +1,4 @@
-# Config Updater Bot
+# VLESS Updater Bot
 
 رباتی برای بروزرسانی سریع و آسان کانفیگ‌ها و لینک‌های VLESS از طریق تلگرام.
 
@@ -17,6 +17,8 @@
 - `/setsub [subdomain]` — تغییر دامنه سابسکریپشن (فقط ادمین).
 
 ## نصب و راه‌اندازی
+bash <(curl -s https://raw.githubusercontent.com/alikhani123/VLESS-Updater-bot/main/config-updater-bot.sh)
+
 
 1. اسکریپت `config-updater-bot.sh` را اجرا کنید.
 2. توکن ربات تلگرام و آیدی عددی ادمین را وارد کنید.
