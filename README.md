@@ -18,8 +18,9 @@
 
 ## نصب و راه‌اندازی
 
-```bash bash <(curl -s https://raw.githubusercontent.com/alikhani123/VLESS-Updater-bot/main/install.sh)
-```
+```bash
+bash <(curl -Ls https://raw.githubusercontent.com/alikhani123/VLESS-Updater-bot/main/install.sh)
+   ```
 1. اسکریپت `config-updater-bot.sh` را اجرا کنید.
 2. توکن ربات تلگرام و آیدی عددی ادمین را وارد کنید.
 3. اسکریپت ربات را نصب و سرویس systemd را فعال می‌کند.
