@@ -21,7 +21,7 @@ install_bot() {
   }
 
   echo "Saving initial configuration..."
-  echo "{\"domain\": \"mydomain.ir\", \"host\": \"myhost.ir\", \"subdomain\": \"mysubdomain.ir\", \"bot_token\": \"$BOT_TOKEN\", \"admin_id\": $ADMIN_ID}" > "$CONFIG_FILE"
+  echo "{\"domain\": \"mydomain.ir\", \"host\": \"myhost.ir\", \"subdomain\": \"mysubdomain.ir\", \"bot_token\": \"$BOT_TOKEN\", \"admin_id\": $ADMIN_ID, \"users\": []}" > "$CONFIG_FILE"
 
   echo "Installing Python dependencies..."
   pip3 install --quiet python-telegram-bot
@@ -49,6 +49,7 @@ EOF
 
   echo "✅ Bot installed and running successfully!"
   echo "To check status: sudo systemctl status updatebot.service"
+  echo "🌐 Project repo: https://github.com/alikhani123/VLESS-Updater-bot"
 }
 
 remove_bot() {
@@ -59,6 +60,7 @@ remove_bot() {
   sudo systemctl daemon-reload
   rm -rf "$BOT_DIR"
   echo "✅ Bot and all related files have been removed."
+  echo "🌐 Project repo: https://github.com/alikhani123/VLESS-Updater-bot"
 }
 
 update_bot() {
@@ -87,6 +89,7 @@ update_bot() {
   sudo systemctl restart updatebot.service
 
   echo "✅ Bot updated successfully. Configuration was preserved."
+  echo "🌐 Project repo: https://github.com/alikhani123/VLESS-Updater-bot"
 }
 
 show_menu() {
